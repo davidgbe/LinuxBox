@@ -7,7 +7,6 @@
 default: &default
   adapter: mysql2
   encoding: utf8
-  database: linux_box_db
   username: root
   password:
   host: 127.0.0.1
@@ -17,15 +16,15 @@ default: &default
 
 development:
   <<: *default
-  database: linux_box_db
+  database: linuxbox-dev
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: linux_box_db
+  database: linuxbox-test
 
 production:
   <<: *default
-  database: linux_box_db
+  database: linuxbox-prod
