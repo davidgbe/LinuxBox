@@ -1,5 +1,5 @@
 defaults: &defaults
-  docker_url: 'tcp://172.16.42.43:4243'
+  docker_url: 'http://localhost:3000'
 
 development:
   <<: *defaults
