@@ -13,4 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require wssh/wssh
+//= require wssh/term
+//= require wssh/client
 //= require_tree .
