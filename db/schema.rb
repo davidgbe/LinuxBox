@@ -11,7 +11,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141004173014) do
+ActiveRecord::Schema.define(version: 20141004181932) do
+
+  create_table "apps", force: true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.string   "key"
+    t.string   "secret"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "apps", ["user_id"], name: "index_apps_on_user_id", using: :btree
+
+  create_table "instances", force: true do |t|
+    t.integer  "application_id"
+    t.string   "ip"
+    t.string   "port"
+    t.string   "username"
+    t.string   "password"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "container_id"
+  end
+
+  add_index "instances", ["application_id"], name: "index_instances_on_application_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
