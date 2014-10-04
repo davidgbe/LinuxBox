@@ -38,3 +38,7 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+gem 'devise'
+gem 'docker-api', :require => 'docker'
+gem 'rails-erd'
+gem 'settingslogic'

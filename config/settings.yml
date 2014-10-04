@@ -1,0 +1,11 @@
+defaults: &defaults
+  docker_url: 'tcp://172.16.42.43:4243'
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
