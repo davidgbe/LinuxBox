@@ -2,8 +2,8 @@
 
 Install Rails
 
-<p>brew install mysql </p>
-<p>mysqld </p>
-<p>mysql -uroot </p>
-<p>create database linux_box_db </p>
-<p>use linux_box_db </p>
+brew install mysql
+mysqld
+mysql -uroot
+create database linux_box_db
+use linux_box_db
