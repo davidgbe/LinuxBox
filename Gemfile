@@ -41,3 +41,4 @@ gem 'spring',        group: :development
 gem 'devise'
 gem 'docker-api', :require => 'docker'
 gem 'rails-erd'
+gem 'settingslogic'
