@@ -8,7 +8,16 @@
         });
         term.open();
         $('.terminal').detach().appendTo('#term');
-        term.resize(80, 50);
+        var h = $('.terminal').height();
+        var fontSize = $('.terminal').css('font-size');
+        var lineHeight = Math.floor(parseInt(fontSize.replace('px','')) * 1.4);
+        term.resize(80, Math.floor(h/lineHeight));
+        $(window).on('resize', function() {
+            var h = $('.terminal').height();
+            var fontSize = $('.terminal').css('font-size');
+            var lineHeight = Math.floor(parseInt(fontSize.replace('px','')) * 1.4);
+            term.resize(80, Math.floor(h/lineHeight));
+        })
         term.write('Connecting...');
         client.connect($.extend(options, {
             onError: function(error) {
