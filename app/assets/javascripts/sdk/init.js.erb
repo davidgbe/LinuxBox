@@ -1,6 +1,6 @@
 var VM = window.VM || {};
 
-VM.PLATFORM_HOST = '<%= Settings.platform_host %>'
+VM.PLATFORM_HOST = 'http://<%= Settings.platform_host %>'
 VM.init = function(application_key, application_secret) {
     if(!application_key || !application_secret) {
         console.log("VM: Missing application key and secret");
