@@ -14,7 +14,7 @@ VM.init = function(application_key, application_secret) {
             height = height || 480;
 
             ui = document.createElement("IFRAME");
-            ui.setAttribute("src", VM.PLATFORM_HOST + '/apps/start?key=' + application_key);
+            ui.setAttribute("src", VM.PLATFORM_HOST + '/apps/init?key=' + application_key);
             ui.style.width = width + "px";
             ui.style.height = height + "px";
             ui.style.border = '0px';

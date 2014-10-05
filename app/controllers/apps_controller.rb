@@ -1,5 +1,12 @@
 class AppsController < ApplicationController
 
+  def init
+    puts params
+    @app = App.where(key: params[:key]).first
+    puts @app
+    redirect_to :action => 'start', :id => @app.id
+  end
+
   def start
     @instance = Instance.new
     @instance.app = App.find(params[:id])

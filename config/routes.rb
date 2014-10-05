@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   end
 
   resources :apps do
+    collection do
+      get 'init'
+    end
     member do
       get 'start'
     end
