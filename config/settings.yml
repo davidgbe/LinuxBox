@@ -13,5 +13,5 @@ test:
 production:
   <<: *defaults
   docker_url: <%= ENV['DOCKER_HOST'] %>
-  proxy_url: <%= ENV['PROXY_HOST'] %>
+  proxy_host: <%= ENV['PROXY_HOST'] %>
   platform_host: <%= ENV['PLATFORM_HOST'] %>
