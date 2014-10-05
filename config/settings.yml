@@ -10,5 +10,5 @@ test:
   <<: *defaults
 
 production:
-  platform_host: 'http://calhacks2014.cloudapp.net'
+  platform_host: <%= ENV['PLATFORM_HOST'] %>
   <<: *defaults
