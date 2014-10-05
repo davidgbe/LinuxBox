@@ -6,12 +6,6 @@ class AppsController < ApplicationController
     @instance.save
   end
 
-  def validate_vm
-    if params.has? 'id'
-      Instance.find(container_id: params(:container_id)).validate
-    end
-  end
-
   def index
     @apps = App.where(user:current_user)
   end
