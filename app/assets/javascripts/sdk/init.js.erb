@@ -1,0 +1,24 @@
+var VM = window.VM || {};
+
+VM.PLATFORM_HOST = '<%= Settings.platform_host %>'
+VM.init = function(application_key, application_secret) {
+    if(!application_key || !application_secret) {
+        console.log("VM: Missing application key and secret");
+        return null;
+    }
+
+    return {
+        createInstance: function(elm, width, height) {
+            var ui;
+            width = width || 640;
+            height = height || 480;
+
+            ui = document.createElement("IFRAME");
+            ui.setAttribute("src", VM.PLATFORM_HOST + '/apps/start?key=' + application_key);
+            ui.style.width = width + "px";
+            ui.style.height = height + "px";
+            ui.style.border = '0px';
+            document.getElementById(elm).appendChild(ui);
+        }
+    }
+};

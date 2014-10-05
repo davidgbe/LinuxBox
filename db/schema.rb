@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20141004181932) do
     t.string   "name"
     t.string   "key"
     t.string   "secret"
+    t.text     "image"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -30,6 +31,7 @@ ActiveRecord::Schema.define(version: 20141004181932) do
     t.string   "port"
     t.string   "username"
     t.string   "password"
+    t.boolean  "available"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "container_id"
