@@ -14,7 +14,7 @@ class Instance < ActiveRecord::Base
     details = container.json
     self.username = 'root'
     self.password = 'linuxpassword'
-    self.ip = '172.16.42.43'
+    self.ip = Settings.platform_ip
     self.port = details['HostConfig']['PortBindings']['22/tcp'][0]['HostPort']
     puts details
     puts container

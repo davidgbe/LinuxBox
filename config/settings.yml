@@ -1,5 +1,6 @@
 defaults: &defaults
   docker_url: 'tcp://172.16.42.43:4243'
+  platform_ip: '127.0.0.1'
   platform_host: 'localhost:3000'
   proxy_host: 'localhost:5000'
   base_image: <%= ENV['BASE_IMAGE'] %>
@@ -14,4 +15,5 @@ production:
   <<: *defaults
   docker_url: <%= ENV['DOCKER_HOST'] %>
   proxy_host: <%= ENV['PROXY_HOST'] %>
+  platform_ip: <%= ENV['PLATFORM_IP'] %>
   platform_host: <%= ENV['PLATFORM_HOST'] %>
