@@ -10,5 +10,6 @@ test:
   <<: *defaults
 
 production:
+  docker_url: <%= ENV['DOCKER_HOST'] %>
   platform_host: <%= ENV['PLATFORM_HOST'] %>
   <<: *defaults
