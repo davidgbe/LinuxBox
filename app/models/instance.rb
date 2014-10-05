@@ -18,11 +18,9 @@ class Instance < ActiveRecord::Base
   end
 
   def validate 
-    self.valid = true
+    self.available = true
     self.save
   end
-
-
 
   def stop
     Docker.url = Settings.docker_url

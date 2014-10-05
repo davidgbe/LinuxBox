@@ -6,7 +6,7 @@ class CreateInstances < ActiveRecord::Migration
       t.string :port
       t.string :username
       t.string :password
-      t.bool :valid
+      t.bool :available
 
       t.timestamps
     end
