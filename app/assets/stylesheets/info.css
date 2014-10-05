@@ -3,7 +3,7 @@
 * You can use Sass (SCSS) here: http://sass-lang.com/
 */
 
-* {
+/** {
 	margin: 0;
 }
 
@@ -14,6 +14,7 @@
 	color: yellow;
 }
 
+
 .header-title {
 	font-size: 30px;
 
@@ -23,8 +24,8 @@
 	padding: 20px;
 }
 
-.header-buttons {
+.dropdown {
 	float: right;
 	clear: left;
-}
+}*/
 

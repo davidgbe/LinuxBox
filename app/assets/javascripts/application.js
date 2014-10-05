@@ -16,4 +16,6 @@
 //= require wssh/wssh
 //= require wssh/term
 //= require wssh/client
+//= require jquery
+//= require bootstrap-sprockets
 //= require_tree .
