@@ -3,6 +3,7 @@ html, body, #term {
 }
 
 .terminal {
+  display: none;
   border: #000 solid 5px;
   font-family: "Monaco", "DejaVu Sans Mono", "Liberation Mono", monospace;
   font-size: 11px;
