@@ -45,7 +45,7 @@ WSSHClient.prototype._generateEndpoint = function(options) {
     } else {
         var protocol = 'ws://';
     }
-    var endpoint = protocol + 'localhost:5000' +
+    var endpoint = protocol + '<%= Settings.proxy_host %>' +
         '/wssh/' + encodeURIComponent(options.hostname) + '/' +
         encodeURIComponent(options.username);
     if (options.authentication_method == 'password') {

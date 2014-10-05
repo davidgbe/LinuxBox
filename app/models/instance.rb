@@ -6,7 +6,7 @@ class Instance < ActiveRecord::Base
 
   def start
     Docker.url = Settings.docker_url
-    image = self.app.image ? self.app.image : '19b72768e5fb'
+    image = self.app.image ? self.app.image : Settings.base_image
     container = Docker::Container.create('Cmd' => ['/sbin/my_init', '--enable-insecure-key'], 'Image' => image, 'ExposedPorts' => {'22/tcp' => {} })
     self.available = false
     self.container_id = container.id
