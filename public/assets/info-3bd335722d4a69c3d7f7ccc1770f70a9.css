@@ -1,0 +1,32 @@
+/* Place all the styles related to the info controller here.
+* They will automatically be included in application.css.
+* You can use Sass (SCSS) here: http://sass-lang.com/
+*/
+
+/** {
+	margin: 0;
+}
+
+.header {
+	height: 100px;
+	width: 100%;
+	background-color: black;
+	color: yellow;
+}
+
+
+.header-title {
+	font-size: 30px;
+
+	float: left;
+	clear: right;
+
+	padding: 20px;
+}
+
+.dropdown {
+	float: right;
+	clear: left;
+}*/
+
+
