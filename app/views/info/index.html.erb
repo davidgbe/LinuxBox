@@ -24,6 +24,15 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
+    <script src="http://calhacks2014.cloudapp.net/assets/sdk/init.js"></script>
+    <script>
+        $(document).ready(function(){
+            vm = VM.init('<%= @app.key %>', '<%= @app.secret %>');
+            vm.createInstance('vm');
+        });
+    </script>
+
 </head>
 
 <body>
@@ -119,10 +128,10 @@
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
                     <h2 class="section-heading">Demo<br>
-                    <p class="lead">Try typing in commands, niqqa</p>
+                    <p class="lead">Give it a try!</p>
                 </div>
                 <div class="col-lg-5 col-sm-pull-6  col-sm-6">
-                    <img class="img-responsive" src="<%= image_path('dog.png') %>" alt="">
+                    <div id="vm"></div>
                 </div>
             </div>
 
@@ -141,7 +150,7 @@
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
                     <h2 class="section-heading">Contact</h2>
-                    <p class="lead">Chewbacca voice over contest! Call (650)575-8319 and leave a voicemail. Winner annoucned next week.</p>
+                    <p class="lead">Chewbacca voice over contest! Call (650)575-8319 and leave a voicemail. Winner announced next week.</p>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                     <img class="img-responsive" src="<%= image_path('picture7.png') %>" alt="">
