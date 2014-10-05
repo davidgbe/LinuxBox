@@ -1,6 +1,7 @@
 defaults: &defaults
   docker_url: 'tcp://172.16.42.43:4243'
   platform_host: 'http://localhost:3000'
+  base_image: <%= ENV['BASE_IMAGE'] %>
 
 development:
   <<: *defaults
@@ -9,4 +10,5 @@ test:
   <<: *defaults
 
 production:
+  platform_host: 'http://calhacks2014.cloudapp.net'
   <<: *defaults
