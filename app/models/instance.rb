@@ -6,12 +6,23 @@ class Instance < ActiveRecord::Base
 
   def start
     Docker.url = Settings.docker_url
-    container = Docker::Container.create('Cmd' => ['/sbin/my_init', '--enable-insecure-key'], 'Image' => 'phusion/baseimage', 'ExposedPorts' => {'22/tcp' => {} })
+    image = self.app.image ? self.app.image : 'phusion/baseimage' 
+    container = Docker::Container.create('Cmd' => ['/sbin/my_init', '--enable-insecure-key'], 'Image' => image, 'ExposedPorts' => {'22/tcp' => {} })
     puts container
     self.container_id = container.id
     self.save
     container.start
+    url = Settings.platform_host + '/apps/validate_vm'
+    verify_command = 'curl --data \"container_id=#{self.container_id}\" #{url}'
+    container.run(verify_command, 300)
   end
+
+  def validate 
+    self.valid = true
+    self.save
+  end
+
+
 
   def stop
     Docker.url = Settings.docker_url

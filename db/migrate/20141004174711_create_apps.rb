@@ -5,6 +5,7 @@ class CreateApps < ActiveRecord::Migration
       t.string :name
       t.string :key
       t.string :secret
+      t.text :image
 
       t.timestamps
     end
