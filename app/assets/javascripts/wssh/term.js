@@ -1,22 +1,33 @@
 /**
- * Created by satyakb on 10/4/14.
- */
-
-/**
  * tty.js - an xterm emulator
- * Christopher Jeffrey (https://github.com/chjj/tty.js)
+ *
+ * Copyright (c) 2012-2013, Christopher Jeffrey (https://github.com/chjj/tty.js)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
  * Originally forked from (with the author's permission):
- *
- * Fabrice Bellard's javascript vt100 for jslinux:
- * http://bellard.org/jslinux/
- * Copyright (c) 2011 Fabrice Bellard
- * (Redistribution or commercial use is prohibited
- *  without the author's permission.)
- *
- * The original design remains. The terminal itself
- * has been extended to include xterm CSI codes, among
- * other features.
+ *   Fabrice Bellard's javascript vt100 for jslinux:
+ *   http://bellard.org/jslinux/
+ *   Copyright (c) 2011 Fabrice Bellard
+ *   The original design remains. The terminal itself
+ *   has been extended to include xterm CSI codes, among
+ *   other features.
  */
 
 ;(function() {
@@ -46,7 +57,7 @@
      */
 
     function EventEmitter() {
-        this._events = {};
+        this._events = this._events || {};
     }
 
     EventEmitter.prototype.addListener = function(type, listener) {
@@ -96,6 +107,7 @@
 
         for (; i < l; i++) {
             obj[i].apply(this, args);
+            // if (obj[i].apply(this, args) === false) return false;
         }
     };
 
@@ -152,6 +164,7 @@
 
         // modes
         this.applicationKeypad = false;
+        this.applicationCursor = false;
         this.originMode = false;
         this.insertMode = false;
         this.wraparoundMode = false;
@@ -233,7 +246,25 @@
         '#34e2e2',
         '#eeeeec'
     ];
-
+// Solarized Light:
+// Terminal.colors = [
+//   '#eee8d5',   //              S_base02
+//   '#dc322f',
+//   '#859900',
+//   '#b58900',
+//   '#268bd2',
+//   '#d33682',
+//   '#2aa198',
+//   '#eee8d5',   //              S_base02
+//   '#cb4b16',
+//   '#dc322f', //                  S_base03
+//   '#93a1a1', //  S_base01
+//   '#839496', //                S_base00
+//   '#657b83', //                 S_base0
+//   '#6c71c4',
+//   '#586e75', //                 S_base1
+//   '#fdf6e3' //                 S_base3
+// ];
 // Colors 16-255
 // Much thanks to TooTallNate for writing this.
     Terminal.colors = (function() {
@@ -272,6 +303,10 @@
         fg: '#f0f0f0'
     };
 
+// Terminal.defaultColors = {
+//   bg: '#fdf6e3', // base03
+//   fg: '#657b83' // base0
+// };
     Terminal.colors[256] = Terminal.defaultColors.bg;
     Terminal.colors[257] = Terminal.defaultColors.fg;
 
@@ -279,14 +314,15 @@
      * Options
      */
 
-    Terminal.termName = 'xterm';
-    Terminal.geometry = [80, 30];
+    Terminal.termName = 'rxvt-unicode';
+    Terminal.geometry = [80, 24];
     Terminal.cursorBlink = true;
     Terminal.visualBell = false;
     Terminal.popOnBell = false;
     Terminal.scrollback = 1000;
     Terminal.screenKeys = false;
     Terminal.programFeatures = false;
+    Terminal.escapeKey = null;
     Terminal.debug = false;
 
     /**
@@ -788,10 +824,17 @@
         width = this.cols;
         y = start;
 
+        // if (end > this.lines.length) {
+        //   end = this.lines.length;
+        // }
+
         for (; y <= end; y++) {
             row = y + this.ydisp;
 
             line = this.lines[row];
+            if (typeof line === 'undefined') {
+                continue;
+            }
             out = '';
 
             if (y === this.y
@@ -993,6 +1036,7 @@
                     switch (ch) {
                         // '\0'
                         // case '\0':
+                        // case '\200':
                         //   break;
 
                         // '\a'
@@ -1060,7 +1104,9 @@
                                         this.scroll();
                                     }
                                 }
-                                this.lines[this.y + this.ybase][this.x] = [this.curAttr, ch];
+                                if (typeof this.lines[this.y + this.ybase] !== 'undefined') {
+                                    this.lines[this.y + this.ybase][this.x] = [this.curAttr, ch];
+                                }
                                 this.x++;
                                 this.updateRange(this.y);
                             }
@@ -1940,6 +1986,8 @@
         this.write(data + '\r\n');
     };
 
+// Key Resources:
+// https://developer.mozilla.org/en-US/docs/DOM/KeyboardEvent
     Terminal.prototype.keyDown = function(ev) {
         var key;
 
@@ -1970,7 +2018,7 @@
                 break;
             // left-arrow
             case 37:
-                if (this.applicationKeypad) {
+                if (this.applicationCursor) {
                     key = '\x1bOD'; // SS3 as ^[O for 7-bit
                     //key = '\x8fD'; // SS3 as 0x8f for 8-bit
                     break;
@@ -1979,7 +2027,7 @@
                 break;
             // right-arrow
             case 39:
-                if (this.applicationKeypad) {
+                if (this.applicationCursor) {
                     key = '\x1bOC';
                     break;
                 }
@@ -1987,7 +2035,7 @@
                 break;
             // up-arrow
             case 38:
-                if (this.applicationKeypad) {
+                if (this.applicationCursor) {
                     key = '\x1bOA';
                     break;
                 }
@@ -2000,7 +2048,7 @@
                 break;
             // down-arrow
             case 40:
-                if (this.applicationKeypad) {
+                if (this.applicationCursor) {
                     key = '\x1bOB';
                     break;
                 }
@@ -2135,9 +2183,11 @@
         }
 
         this.emit('keydown', ev);
+        // if (this.emit('keydown', key, ev) === false) { this.showCursor(); cancel(ev); return; }
 
         if (key) {
             this.emit('key', key, ev);
+            // if (this.emit('key', key, ev) === false) { this.showCursor(); cancel(ev); return; }
 
             this.showCursor();
             this.handler(key);
@@ -2180,7 +2230,9 @@
         key = String.fromCharCode(key);
 
         this.emit('keypress', key, ev);
+        // if (this.emit('keypress', key, ev) === false) { this.showCursor(); return; }
         this.emit('key', key, ev);
+        // if (this.emit('key', key, ev) === false) { this.showCursor(); return; }
 
         this.showCursor();
         this.handler(key);
@@ -2197,7 +2249,6 @@
                 self.queue = '';
             }, 1);
         }
-
         this.queue += data;
     };
 
@@ -2303,6 +2354,12 @@
     Terminal.prototype.updateRange = function(y) {
         if (y < this.refreshStart) this.refreshStart = y;
         if (y > this.refreshEnd) this.refreshEnd = y;
+        // if (y > this.refreshEnd) {
+        //   this.refreshEnd = y;
+        //   if (y > this.rows - 1) {
+        //     this.refreshEnd = this.rows - 1;
+        //   }
+        // }
     };
 
     Terminal.prototype.maxRange = function() {
@@ -2344,9 +2401,10 @@
     Terminal.prototype.eraseRight = function(x, y) {
         var line = this.lines[this.ybase + y]
             , ch = [this.curAttr, ' ']; // xterm
-
-        for (; x < this.cols; x++) {
-            line[x] = ch;
+        if (typeof line !== 'undefined') {
+            for (; x < this.cols; x++) {
+                line[x] = ch;
+            }
         }
 
         this.updateRange(y);
@@ -2357,7 +2415,11 @@
             , ch = [this.curAttr, ' ']; // xterm
 
         x++;
-        while (x--) line[x] = ch;
+        while (x--) {
+            if (typeof line[x] !== 'undefined') {
+                line[x] = ch;
+            }
+        }
 
         this.updateRange(y);
     };
@@ -3162,7 +3224,7 @@
         } else if (this.prefix === '?') {
             switch (params) {
                 case 1:
-                    this.applicationKeypad = true;
+                    this.applicationCursor = true;
                     break;
                 case 2:
                     this.setgCharset(0, Terminal.charsets.US);
@@ -3360,7 +3422,7 @@
         } else if (this.prefix === '?') {
             switch (params) {
                 case 1:
-                    this.applicationKeypad = false;
+                    this.applicationCursor = false;
                     break;
                 case 3:
                     if (this.cols === 132 && this.savedCols) {
@@ -3614,6 +3676,7 @@
         this.originMode = false;
         this.wraparoundMode = false; // autowrap
         this.applicationKeypad = false; // ?
+        this.applicationCursor = false;
         this.scrollTop = 0;
         this.scrollBottom = this.rows - 1;
         this.curAttr = this.defAttr;
