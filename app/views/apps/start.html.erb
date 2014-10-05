@@ -1,49 +1,63 @@
+<div id="loading"><img id="loading-text" src="<%= image_path("loading.gif") %>"></div>
 <div id="term"></div>
 
 <script type="application/javascript">
-    function openTerminal(options) {
-        var client = new WSSHClient();
-        var term = new Terminal(80, 24, function(key) {
-            client.send(key);
-        });
-        term.open();
-        $('.terminal').detach().appendTo('#term');
-        var h = $('.terminal').height();
-        var fontSize = $('.terminal').css('font-size');
-        var lineHeight = Math.floor(parseInt(fontSize.replace('px','')) * 1.4);
-        term.resize(80, Math.floor(h/lineHeight));
-        $(window).on('resize', function() {
+    var addResizing = true;
+    (function openTerminal() {
+        setTimeout(function() {
+            var client = new WSSHClient();
+            var term = new Terminal(80, 24, function(key) {
+                client.send(key);
+            });
+            term.open();
+
+            var optionsTemp = {
+                username: 'lala',
+                hostname: 'eniac.seas.upenn.ed',
+                command: '',
+                authentication_method: 'password',
+                password: "Idon'tno11",
+                port: '22'
+            }
+
+            $('.terminal').detach().appendTo('#term');
+
             var h = $('.terminal').height();
             var fontSize = $('.terminal').css('font-size');
             var lineHeight = Math.floor(parseInt(fontSize.replace('px','')) * 1.4);
             term.resize(80, Math.floor(h/lineHeight));
-        })
-        term.write('Connecting...');
-        client.connect($.extend(options, {
-            onError: function(error) {
-                term.write('Error: ' + error + '\r\n');
-            },
-            onConnect: function() {
-                // Erase our connecting message
-                term.write('\r');
-            },
-            onClose: function() {
-                term.write('Connection Reset By Peer');
-            },
-            onData: function(data) {
-                term.write(data);
+
+            if (addResizing) {
+                $(window).on('resize', function() {
+                    var h = $('.terminal').height();
+                    var fontSize = $('.terminal').css('font-size');
+                    var lineHeight = Math.floor(parseInt(fontSize.replace('px','')) * 1.4);
+                    term.resize(80, Math.floor(h/lineHeight));
+                })
+                addResizing = false;
             }
-        }));
-    }
-    var options = {
-        username: '<%= @instance.username %>',
-        hostname: '<%= @instance.ip %>',
-        command: '',
-        authentication_method: 'password',
-        password: "<%= @instance.password %>",
-        port: '<%= @instance.port %>'
-    }
-    openTerminal(options);
+
+            term.write('Connecting...');
+            client.connect($.extend(optionsTemp, {
+                onError: function(error) {
+                    term.write('Error: ' + error + '\r\n');
+                },
+                onConnect: function() {
+                    // Erase our connecting message
+                    term.write('\r');
+                },
+                onClose: function() {
+                    term.write('Connection Reset By Peer');
+                    console.log('failed');
+                    openTerminal();
+                },
+                onData: function(data) {
+                    term.write(data);
+                    $('#loading').hide();
+                }
+            }));
+        }, 250);
+    })();
 </script>
 
 <script type='application/javascript'>
