@@ -7,6 +7,7 @@
             client.send(key);
         });
         term.open();
+        $('#term').empty();
         $('.terminal').detach().appendTo('#term');
         var h = $('.terminal').height();
         var fontSize = $('.terminal').css('font-size');

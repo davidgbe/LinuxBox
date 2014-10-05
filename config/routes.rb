@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   get 'instance/create'
   root 'info#index'
 
-  resouces :instances do 
+  resources :instances do
     collection do
       post 'validate_vm'
       get 'available'
@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   end
 
   resources :apps do
-    collection do
+    member do
       get 'start'
     end
   end
