@@ -29,3 +29,24 @@ html, body, #term {
   margin-top: -190px;
   margin-left: -254px;
 }
+
+.outer-container {
+//  background: red;
+  top: 50%;
+  margin-top: -69px; //negative height of outer-container
+}
+
+.inner-container {
+  background: rgba(0,0,0,0.3);
+  border-radius: 10px;
+}
+
+.lb-form {
+  margin: 0px 0 20px;
+}
+
+.lb-button {
+  background-color: green !important;
+  border-color: green !important;
+  outline: none !important;
+}

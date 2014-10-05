@@ -45,4 +45,6 @@ gem 'devise'
 gem 'docker-api', :require => 'docker'
 gem 'rails-erd'
 gem 'settingslogic'
-gem 'simple_form'
+gem 'bootstrap_form'
+gem 'angularjs-rails'
+

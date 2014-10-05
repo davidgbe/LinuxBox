@@ -1,0 +1,32 @@
+//(function() {
+//
+//    var lbApp = angular.module('linuxbox', ['ngRoute']);
+//
+//    lbApp.controller('AppController', ['$scope' ,'$http', function($scope, $http) {
+//
+//        $scope.apps = <%= @app %>;
+//
+//        console.log($scope.apps);
+//
+//        $scope.sendComment = function() {
+//            if ($('#textbox').val() !== '') {
+//                $http.post('/resources/1/comments', {
+//                    comment: $('#textbox').val()
+//                }).then(function(result) {
+//
+//                    $('#textbox').val('');
+//
+//                    var newComm = {};
+//                    newComm[result.data._id] = result.data;
+//                    newComm[result.data._id].voteCount = 0;
+//
+//                    $scope.comments.push(newComm);
+//
+//                })
+//            }
+//        }
+//
+//
+//    }])
+//
+//})();

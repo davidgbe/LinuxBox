@@ -1,4 +1,25 @@
-<%= simple_form_for(@app, html => {class => 'form-horizontal' }) do |f| %>
-    <%= f.input :name, class: 'form-control' %>
-    <%= f.button :submit, class: 'btn btn-normal' %>
-<% end %>
+<div class="col-xs-12 outer-container">
+    <div class="col-xs-12 col-sm-4 col-sm-offset-4 inner-container">
+        <div class="col-xs-12 lb-form">
+            <h2>New LinuxBox</h2>
+            <%= bootstrap_form_for @app do |f| %>
+                <%= f.text_field :name, hide_label: :true, placeholder: "Name" %>
+                <%= f.submit "Create", class: 'btn btn-lg btn-primary btn-block lb-button' %>
+            <% end %>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <!--<form class="form-signin" role="form">-->
+        <!--<h2 class="form-signin-heading">Please sign in</h2>-->
+        <!--<input type="email" class="form-control" placeholder="Email address" required="" autofocus="" autocomplete="off" ">-->
+        <!--<input type="password" class="form-control" placeholder="Password" required="" autocomplete="off" ">-->
+        <!--<label class="checkbox">-->
+            <!--<input type="checkbox" value="remember-me"> Remember me-->
+        <!--</label>-->
+        <!--<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>-->
+    <!--</form>-->
+
+</div>
