@@ -1,6 +1,9 @@
 class AppsController < ApplicationController
+
   def start
-    @instance = Instance.create
+    @instance = Instance.new
+    @instance.app = App.find(params[:id])
+    @instance.save
   end
 
   def validate_vm

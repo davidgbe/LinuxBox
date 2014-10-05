@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root 'info#index'
 
   resources :apps do
-    collection do
+    member do
       get 'start'
     end
   end
