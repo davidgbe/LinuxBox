@@ -17,7 +17,7 @@ class Instance < ActiveRecord::Base
     container.run(verify_command, 300)
   end
 
-  def validate 
+  def make_available
     self.available = true
     self.save
   end

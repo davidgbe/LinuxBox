@@ -2,7 +2,7 @@ class InstanceController < ApplicationController
 
   def validate_vm
     if params.has? 'container_id'
-      Instance.find(container_id: params(:container_id)).validate
+      Instance.find(container_id: params(:container_id)).make_available
     end
   end
 
