@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20141004181932) do
   add_index "apps", ["user_id"], name: "index_apps_on_user_id", using: :btree
 
   create_table "instances", force: true do |t|
-    t.integer  "application_id"
+    t.integer  "app_id"
     t.string   "ip"
     t.string   "port"
     t.string   "username"
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20141004181932) do
     t.string   "container_id"
   end
 
-  add_index "instances", ["application_id"], name: "index_instances_on_application_id", using: :btree
+  add_index "instances", ["app_id"], name: "index_instances_on_app_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
